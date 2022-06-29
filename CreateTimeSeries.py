@@ -90,12 +90,51 @@ def get_local_time_series(data: list, timestep: int):
         timeCounter += timestep
     return res
 
+
+def create_changepoint_list(timeseries: list, epsilon: int):
+    """
+    Creates a change point list as in section 3.1.1 of the paper
+    :param timeseries: List of numbers of requests for the domain for every time interval
+    :param epsilon: the window for the change
+    :return:
+    """
+    res = list()
+    for t in range(len(timeseries)):
+        pt_minus = 0
+        pt_plus = 0
+        numVals = epsilon
+        counter = 0
+        for i in range(1, epsilon + 1):
+            if t - i < 0:
+                numVals = i - 1
+                break
+            counter += timeseries[t - i]
+        if numVals != 0:
+            pt_minus = counter / numVals
+        numVals = epsilon
+        counter = 0
+        for i in range(1, epsilon + 1):
+            if t + i >= len(timeseries):
+                numVals = i - 1
+                break
+            counter += timeseries[t + i]
+        if numVals != 0:
+            pt_plus = counter / numVals
+        dt = abs(pt_minus - pt_plus)
+        res.append(dt)
+    return res
+
+
 if __name__ == "__main__":
     data = get_data_for_domain('duolingo.com')
     for i in data:
         print(i)
 
-    r = get_local_time_series(data, 3600)
+    r = get_global_time_series(data, 3600)
     print(r)
     print(len(r))
     print(sum(r))
+    dt = create_changepoint_list(r, 8)
+    print(dt)
+    print(len(dt))
+    print(sum(dt))
