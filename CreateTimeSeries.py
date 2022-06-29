@@ -125,6 +125,23 @@ def create_changepoint_list(timeseries: list, epsilon: int):
     return res
 
 
+def get_daily_series(timeseries: list, timestep: int):
+    """
+    Gives you the timeseries for every day (31 days)
+    :param timeseries:
+    :param timestep: The timestep used for this timeseries, must divide the number of seconds in a day
+    :return: list of lists, every list is a timeseries here
+    """
+    numberOfEntriesPerDay = int((60*60*24) / timestep)
+    res = list()
+    if (60*24*60) % timestep != 0:
+        print("Select a timestep that can divide the day exactly.")
+        return
+    for i in range(31):
+        res.append(timeseries[i * numberOfEntriesPerDay : ((i + 1) * numberOfEntriesPerDay) - 1])
+    return res
+
+
 if __name__ == "__main__":
     data = get_data_for_domain('duolingo.com')
     for i in data:
@@ -138,3 +155,9 @@ if __name__ == "__main__":
     print(dt)
     print(len(dt))
     print(sum(dt))
+
+    print(r[1 * 24: ((1 + 1) * 24) - 1])
+
+    daily = get_daily_series(r, 3600)
+    print(daily)
+    print(len(daily))
