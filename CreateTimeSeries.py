@@ -50,6 +50,35 @@ def get_global_time_series(data: list, timestep: int):
     return res
 
 
+def get_global_time_series_nicer(data: list, timestep: int):
+    """
+    Creates a global time series, from 01/01/2021 00:00:00 to 31/01/2021 24:00:00
+    :param data: A list of data dictionaries for the domain
+    :param timestep: Time interval
+    :return: List of ints that represent the number of requests for every time interval
+    """
+    timestamps = list()
+    for i in data:
+        timestamps += sorted(map(subtract_start, i['timestamp']))
+    timeCounter = timestep
+    res = list()
+    currentIndex = 0
+    while timeCounter <= (31 * 24 * 60 * 60):
+        counterOfTimestamps = 0
+        while True:
+            if currentIndex >= len(timestamps):
+                    break
+            if timestamps[currentIndex] < timeCounter:
+                counterOfTimestamps += 1
+                currentIndex += 1
+            else:
+                break
+        res.append(counterOfTimestamps)
+        timeCounter += timestep
+    return res
+
+
+
 def get_local_time_series(data: list, timestep: int):
     """
     Returns a local time series, from the first time the doamin was requested to the last
@@ -82,6 +111,38 @@ def get_local_time_series(data: list, timestep: int):
                     currentList = timestamps[indexOfCurrentList]
                     currentIndex = 0
             if currentList[currentIndex] <= timeCounter:
+                counterOfTimestamps += 1
+                currentIndex += 1
+            else:
+                break
+        res.append(counterOfTimestamps)
+        timeCounter += timestep
+    return res
+
+
+def get_local_time_series_nicer(data: list, timestep: int):
+    """
+    Returns a local time series, from the first time the doamin was requested to the last
+    :param data: A list of data dictionaries for the domain
+    :param timestep: Time interval
+    :return:  List of ints that represent the number of requests for every time interval
+    """
+    timestamps = list()
+    for i in data:
+        timestamps += sorted(map(subtract_start, i['timestamp']))
+    timeCounter = timestep
+    res = list()
+    currentIndex = 0
+    if len(timestamps) > 0:
+        timeCounter = timestamps[0] + timestep
+    while True:
+        if currentIndex >= len(timestamps):
+            break
+        counterOfTimestamps = 0
+        while True:
+            if currentIndex >= len(timestamps):
+                break
+            if timestamps[currentIndex] <= timeCounter:
                 counterOfTimestamps += 1
                 currentIndex += 1
             else:
@@ -147,17 +208,17 @@ if __name__ == "__main__":
     for i in data:
         print(i)
 
-    r = get_global_time_series(data, 3600)
+    r = get_local_time_series(data, 3600)
     print(r)
     print(len(r))
     print(sum(r))
+    nicer = get_local_time_series_nicer(data, 3600)
+    print(nicer)
+    print(len(nicer))
+    print(sum(nicer))
+    print(r == nicer)
     dt = create_changepoint_list(r, 8)
     print(dt)
     print(len(dt))
     print(sum(dt))
 
-    print(r[1 * 24: ((1 + 1) * 24) - 1])
-
-    daily = get_daily_series(r, 3600)
-    print(daily)
-    print(len(daily))
