@@ -1,0 +1,101 @@
+from OpenDataFunc import get_data_for_domain
+
+# 9455600 timestamp for 01/01/2021 00:00:00 - the start of global time series
+def subtract_start(a):
+    res = a - 9455600
+    if a < 0:
+        print("Timestamp weirdly lower than zero")
+    return res
+
+
+def get_global_time_series(data: list, timestep: int):
+    """
+    Creates a global time series, from 01/01/2021 00:00:00 to 31/01/2021 24:00:00
+    :param data: A list of data dictionaries for the domain
+    :param timestep: Time interval
+    :return: List of ints that represent the number of requests for every time interval
+    """
+    timestamps = list()
+    for i in data:
+        timestamps.append(sorted(map(subtract_start, i['timestamp'])))
+    timeCounter = timestep
+    res = list()
+    currentList = None
+    currentIndex = 0
+    indexOfCurrentList = 0
+    if len(timestamps) > 0:
+        currentList = timestamps[0]
+    while timeCounter <= (31 * 24 * 60 * 60):
+        if currentList is None:
+            res.append(0)
+            timeCounter += timestep
+            continue
+        counterOfTimestamps = 0
+        while True:
+            if currentIndex >= len(currentList):
+                indexOfCurrentList += 1
+                if indexOfCurrentList >= len(timestamps):
+                    currentList = None
+                    break
+                else:
+                    currentList = timestamps[indexOfCurrentList]
+                    currentIndex = 0
+            if currentList[currentIndex] < timeCounter:
+                counterOfTimestamps += 1
+                currentIndex += 1
+            else:
+                break
+        res.append(counterOfTimestamps)
+        timeCounter += timestep
+    return res
+
+
+def get_local_time_series(data: list, timestep: int):
+    """
+    Returns a local time series, from the first time the doamin was requested to the last
+    :param data: A list of data dictionaries for the domain
+    :param timestep: Time interval
+    :return:  List of ints that represent the number of requests for every time interval
+    """
+    timestamps = list()
+    for i in data:
+        timestamps.append(sorted(map(subtract_start, i['timestamp'])))
+    timeCounter = timestep
+    res = list()
+    currentList = None
+    currentIndex = 0
+    indexOfCurrentList = 0
+    if len(timestamps) > 0:
+        currentList = timestamps[0]
+        timeCounter = currentList[0] + timestep
+    while True:
+        if currentList is None:
+            break
+        counterOfTimestamps = 0
+        while True:
+            if currentIndex >= len(currentList):
+                indexOfCurrentList += 1
+                if indexOfCurrentList >= len(timestamps):
+                    currentList = None
+                    break
+                else:
+                    currentList = timestamps[indexOfCurrentList]
+                    currentIndex = 0
+            if currentList[currentIndex] <= timeCounter:
+                counterOfTimestamps += 1
+                currentIndex += 1
+            else:
+                break
+        res.append(counterOfTimestamps)
+        timeCounter += timestep
+    return res
+
+if __name__ == "__main__":
+    data = get_data_for_domain('duolingo.com')
+    for i in data:
+        print(i)
+
+    r = get_local_time_series(data, 3600)
+    print(r)
+    print(len(r))
+    print(sum(r))
