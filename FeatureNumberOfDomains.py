@@ -1,5 +1,17 @@
 from OpenDataFunc import get_data_for_domain
-from FeatureSetDNSAnswer import get_unique_domains_set
+
+
+def get_unique_domains_set(data):
+    """
+    Returns all distinct ips for this domain
+    :param data:
+    :return:
+    """
+    ips = set()
+    for d in data:
+        for i in d['ips']:
+            ips.add(i)
+    return(ips)
 
 
 def get_feature_number_of_ips(data):

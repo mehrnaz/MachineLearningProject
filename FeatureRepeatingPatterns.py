@@ -26,7 +26,7 @@ def get_feature_repeating_patterns(time_series_local: list, epsilon):
 
 
 if __name__ == "__main__":
-    data = get_data_for_domain('duolingo.com')
+    data = get_data_for_domain('app-measurement.com')
 
     r = ts.get_local_time_series(data, 3600)
     print(r)

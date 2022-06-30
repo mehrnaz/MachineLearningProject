@@ -20,8 +20,7 @@ def get_feature_short_lived(time_series_global: list, epsilon):
 
 
 if __name__ == "__main__":
-    data = get_data_for_domain('duolingo.com')
-
+    data = get_data_for_domain('app-measurement.com')
     r = ts.get_global_time_series(data, 3600)
     print(r)
     print(len(r))

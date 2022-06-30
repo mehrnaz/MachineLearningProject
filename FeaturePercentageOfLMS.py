@@ -1,10 +1,9 @@
 import enchant
 
 
-def get_feature_percentage_LMS(name: str):
+def get_feature_percentage_LMS(name: str, d):
     substrings = [name[i: j] for i in range(len(name))
                   for j in range(i + 1, len(name) + 1)]
-    d = enchant.Dict("en_US")
     longest = 0
     for i in substrings:
         if 1 < len(i) == sum(c.isalpha() for c in i):

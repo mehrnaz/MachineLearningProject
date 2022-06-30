@@ -30,7 +30,7 @@ def get_feature_daily_similarity(dailySeries: list):
 
 
 if __name__ == "__main__":
-    data = get_data_for_domain('4shared.com')
+    data = get_data_for_domain('app-measurement.com')
     for i in data:
         print(i)
 
