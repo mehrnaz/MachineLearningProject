@@ -13,6 +13,8 @@ def preprocess_timeseries(T: list):
 
 
 def get_feature_daily_similarity(dailySeries: list):
+    if len(dailySeries) <= 1:
+        return 0
     processed = list()
     for i in dailySeries:
         processed.append(preprocess_timeseries(i))
