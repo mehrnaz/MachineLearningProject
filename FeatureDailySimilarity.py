@@ -8,7 +8,11 @@ def preprocess_timeseries(T: list):
     st = np.std(T)
     res = list()
     for i in T:
-        res.append((i - m) / st)
+        if st == 0:
+            p = 0
+        else:
+            p = (i - m) / st
+        res.append(p)
     return np.asarray(res)
 
 
@@ -26,7 +30,7 @@ def get_feature_daily_similarity(dailySeries: list):
 
 
 if __name__ == "__main__":
-    data = get_data_for_domain('duolingo.com')
+    data = get_data_for_domain('4shared.com')
     for i in data:
         print(i)
 
