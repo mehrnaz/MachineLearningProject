@@ -1,6 +1,6 @@
 from OpenDataFunc import get_data_for_domain
 
-# 9455600 timestamp for 01/01/2021 00:00:00 - the start of global time series
+# 9455600 timestamp for 01/01/2021 00:00:00 (reduced as are all the timestamps) - the start of global time series
 def subtract_start(a):
     res = a - 9455600
     if a < 0:
@@ -122,7 +122,7 @@ def get_local_time_series(data: list, timestep: int):
 
 def get_local_time_series_nicer(data: list, timestep: int):
     """
-    Returns a local time series, from the first time the doamin was requested to the last
+    Returns a local time series, from the first time the domain was requested to the last
     :param data: A list of data dictionaries for the domain
     :param timestep: Time interval
     :return:  List of ints that represent the number of requests for every time interval

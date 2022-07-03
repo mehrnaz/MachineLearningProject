@@ -51,7 +51,10 @@ def get_feature_number_of_countries_using_geolocDb(data: list):
             response = urlopen(url)
         except HTTPError:
             print("Error")
-            return -1
+            continue
+        except Exception as exc:
+            print(exc)
+            continue
         resp = json.load(response)
         dist_countries.add(resp['country_name'])
     return len(dist_countries)

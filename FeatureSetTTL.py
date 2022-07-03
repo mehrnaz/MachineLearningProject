@@ -7,6 +7,11 @@ import PreliminaryFunctionTTLFeatures as pr
 
 
 def get_feature_set_TTL(data):
+    """
+    Returns all the TTL based features
+    :param data:
+    :return: averageTTL, stdofTTL, dstTTLvalues, numOfChanges, usageOfRanges
+    """
     counter = pr.get_TTL_counter(data)
     li = pr.convert_TTL_to_list(counter)
     return list((average_TTL(li), standart_deviation_of_TTL(li), number_of_distinct_TTL_values(counter),

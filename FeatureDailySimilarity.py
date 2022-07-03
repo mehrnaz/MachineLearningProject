@@ -4,6 +4,11 @@ import numpy as np
 
 
 def preprocess_timeseries(T: list):
+    """
+    Preprocessing the timeseries as described in the paper (for every point subratct mean and divide by std. deviation
+    :param T: timeseries as cerated by CreateTimeSeries scripts
+    :return: Numpy array of the reduced timeseries
+    """
     m = np.mean(T)
     st = np.std(T)
     res = list()
@@ -17,6 +22,11 @@ def preprocess_timeseries(T: list):
 
 
 def get_feature_daily_similarity(dailySeries: list):
+    """
+    Feature daily similarity -> avg euclidean distance between daily timeseries
+    :param dailySeries: time series cut into dais as created by functions in CreateTimeSeries
+    :return: One value -> the avg of euclidean distances between daily series
+    """
     if len(dailySeries) <= 1:
         return 0
     processed = list()

@@ -16,6 +16,13 @@ def get_unique_domains_set(data):
 
 
 def get_feature_reverse_DNS(data: list):
+    """
+    Feature for reverse DNS query -> this was difficult to understand so an attempt was made to extract some information
+    :param data:
+    :return: three values, average number of A records returned for a single ip address, average number of NS records
+    for a single ip address, and average number of errors during calculations as it may show whether this domain works
+    (that is probably not a very good indicator of anything but still)
+    """
     ips = get_unique_domains_set(data)
     NSs = set()
     aRecords = set()

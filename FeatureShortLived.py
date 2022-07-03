@@ -4,6 +4,12 @@ from OpenDataFunc import get_data_for_domain
 
 
 def get_feature_short_lived(time_series_global: list, epsilon):
+    """
+    Gets if a domain is short lived as per paper, puts global timeseries into cusum and gets some information
+    :param time_series_global:
+    :param epsilon:
+    :return: two values -> number of changes detected and average number of requests per change
+    """
     changes = ts.create_changepoint_list(time_series_global, epsilon)
     ta, times_start, times_end, amp = detect_cusum(changes, 0.3, 0.08, ending=True, show=False)
     num_changes = len(times_start)

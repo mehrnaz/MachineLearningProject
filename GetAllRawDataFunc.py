@@ -24,6 +24,13 @@ def get_all_data():
 
 
 def get_selection_with_less_legit(nleg, data, exclude_low_numbers):
+    """
+    Gets data but ignores some legitimate domains
+    :param nleg: Number of legitimate domains to keep
+    :param data:
+    :param exclude_low_numbers: Exclude legitimate domains that have just one datapoint
+    :return:
+    """
     res = dict()
     legits = list()
     with open(os.path.join(".", "domains_subset.json"), 'rb') as f:
@@ -33,6 +40,9 @@ def get_selection_with_less_legit(nleg, data, exclude_low_numbers):
                 if exclude_low_numbers and len(data[item]) <= 1:
                     continue
                 legits.append(item)
+        if len(legits) < nleg:
+            print("Sent more legit than can be get")
+            nleg = len(legits)
         sa = sample(legits, nleg)
         for item in data:
             if item in sa:

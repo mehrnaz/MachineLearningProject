@@ -6,6 +6,15 @@ from FeatureAccessRatio import get_feature_access_ratio
 
 
 def get_feature_set_time_based(data, timestep, epsilon, idle_treshold, active_treshold):
+    """
+    Time based feature set
+    :param data:
+    :param timestep:
+    :param epsilon:
+    :param idle_treshold:
+    :param active_treshold:
+    :return: eight values shortLived1,2 - daily - repeatingPattern1,2,3 - accessRatio1,2
+    """
     local_series = ts.get_local_time_series_nicer(data, timestep)
     global_series = ts.get_global_time_series_nicer(data, timestep)
 

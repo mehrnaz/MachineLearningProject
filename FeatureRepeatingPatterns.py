@@ -5,6 +5,14 @@ import statistics
 
 
 def get_feature_repeating_patterns(time_series_local: list, epsilon):
+    """
+    Feature daily similarity -> as per the paper, takes a local time series and runs it through a cusum algorithm
+    (parameters taken from the paper with small tweaks). Attempts to extract similar features as in the article with)
+    :param time_series_local: The local time series
+    :param epsilon: as per the paper a value to create a list of changepoints
+    :return: three numerical values. Number of changes detected by the alg, average number of requests per change period
+    and standard dev of the lengths of change periods (as in the paper)
+    """
     changes = ts.create_changepoint_list(time_series_local, epsilon)
     ta, times_start, times_end, amp = detect_cusum(changes, 0.3, 0.08, ending=True, show=False)
     num_changes = len(times_start)

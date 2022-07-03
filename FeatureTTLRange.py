@@ -2,6 +2,11 @@ from PreliminaryFunctionTTLFeatures import get_TTL_counter
 
 
 def percentage_usage_of_specific_TTL_ranges(count):
+    """
+    gets how often are which ttl ranges used
+    :param count:
+    :return:
+    """
     sum_TTL = sum(count.values())
 
     count = dict(count)

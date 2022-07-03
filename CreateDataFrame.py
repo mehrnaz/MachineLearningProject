@@ -9,6 +9,9 @@ from GetAllRawDataFunc import get_all_data
 from FeatureSetTTL import get_feature_set_TTL
 from FeatureSetTimeBased import get_feature_set_time_based
 
+"""
+Loads all the data, extracts the features and saves them as a csv file. Extracts only reduced DNS answer set!
+"""
 
 def get_row(name, data_list, blacklisted):
     dnsAnswerSet = get_reduced_set_DNS(data_list) #get_feature_set_DNS_answer(data_list)
@@ -42,7 +45,4 @@ with open(os.path.join(".", "domains_subset.json"), 'rb') as f:
 df.to_csv("data_csv_all_reduced.csv")
 df.info()
 print(df.info())
-print(df.mean())
 
-print(df.loc[df['Blacklisted'] == 0].mean())
-print(df.loc[df['Blacklisted'] == 1].mean())
